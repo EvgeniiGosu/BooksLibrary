@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="BooksLibraryApi.cpp" />
+    <ClCompile Include="InpxParsing\BooksParser.cpp">
+      <Filter>InpxParsing</Filter>
+    </ClCompile>
+    <ClCompile Include="InpxParsing\InpxParser.cpp">
+      <Filter>InpxParsing</Filter>
+    </ClCompile>
+    <ClCompile Include="BooksStorage\PropertyTreeBooksStorageWriter.cpp">
+      <Filter>BooksStorage</Filter>
+    </ClCompile>
+    <ClCompile Include="BooksStorage\PropertyTreeBookSerializer.cpp">
+      <Filter>BooksStorage</Filter>
+    </ClCompile>
+    <ClCompile Include="BooksStorage\PropertyTreeBooksStorageReader.cpp">
+      <Filter>BooksStorage</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Author.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Book.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\BookFile.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\BookSeries.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Lang.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BooksLibraryApi.h" />
+    <ClInclude Include="Data\Book.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="InpxParsing\BooksParser.h">
+      <Filter>InpxParsing</Filter>
+    </ClInclude>
+    <ClInclude Include="InpxParsing\InpxParser.h">
+      <Filter>InpxParsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\BookFile.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\BookSeries.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="BooksStorage\IBooksStorageWriter.h">
+      <Filter>BooksStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="BooksStorage\PropertyTreeBooksStorageWriter.h">
+      <Filter>BooksStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="BooksStorage\PropertyTreeBookSerializer.h">
+      <Filter>BooksStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="BooksStorage\IBooksStorageReader.h">
+      <Filter>BooksStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="BooksStorage\PropertyTreeBooksStorageReader.h">
+      <Filter>BooksStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Author.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Lang.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Data">
+      <UniqueIdentifier>{7d89f82c-eeb3-40ce-9bb0-79f4153fac31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InpxParsing">
+      <UniqueIdentifier>{b9e85954-bff2-4e56-a5f2-a1b30835a58f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BooksStorage">
+      <UniqueIdentifier>{039f5ae6-0f7c-473f-a110-77da5420583c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

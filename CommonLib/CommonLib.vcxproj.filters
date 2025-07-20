@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Logging">
+      <UniqueIdentifier>{756010dc-620b-42a8-a7d8-88863c3a6263}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Logging\EmptyLog.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Logging\Log.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Logging\LogFactory.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Logging\StreamLog.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="TempDir.cpp" />
+    <ClCompile Include="Str.cpp" />
+    <ClCompile Include="Stopwatch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Logging\EmptyLog.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging\ILog.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging\Log.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging\LogFactory.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging\StreamLog.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Str.h" />
+    <ClInclude Include="TempDir.h" />
+    <ClInclude Include="Stopwatch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

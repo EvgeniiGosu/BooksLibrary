@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MVC\CliView.cpp">
+      <Filter>MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="MVC\Controller.cpp">
+      <Filter>MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="MVC\SessionCommandDispatcher.cpp">
+      <Filter>MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="MVC\SessionCommands\FindBookByTitleCommand.cpp">
+      <Filter>MVC\SessionCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="MVC\TablePrinter.cpp">
+      <Filter>MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="MVC\SessionCommands\ExportBookCommand.cpp">
+      <Filter>MVC\SessionCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="MVC\SessionCommands\ImportLibCommand.cpp">
+      <Filter>MVC\SessionCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="MVC\SessionCommands\OpenLibCommand.cpp">
+      <Filter>MVC\SessionCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Config.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="MVC">
+      <UniqueIdentifier>{3948d033-cb64-4adb-aedc-3c535b6a227b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MVC\SessionCommands">
+      <UniqueIdentifier>{90900d3f-2d54-45d8-b6f5-89e1bf2d2427}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{ad528470-c22e-47a6-a2db-efaa761fed11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{545d29cd-e356-4d3c-ad80-268a85df6b29}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MVC\CliView.h">
+      <Filter>MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="MVC\Controller.h">
+      <Filter>MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="MVC\IViewCallback.h">
+      <Filter>MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="MVC\SessionCommandDispatcher.h">
+      <Filter>MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="MVC\SessionCommands\FindBookByTitleCommand.h">
+      <Filter>MVC\SessionCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="MVC\TablePrinter.h">
+      <Filter>MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="MVC\SessionCommands\ExportBookCommand.h">
+      <Filter>MVC\SessionCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\CommandlineUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="MVC\SessionCommands\ImportLibCommand.h">
+      <Filter>MVC\SessionCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="MVC\SessionCommands\OpenLibCommand.h">
+      <Filter>MVC\SessionCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Config.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
