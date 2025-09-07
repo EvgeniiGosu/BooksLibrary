@@ -6,6 +6,7 @@
 #include "SessionCommands/ExportBookCommand.h"
 #include "SessionCommands/ImportLibCommand.h"
 #include "SessionCommands/OpenLibCommand.h"
+#include "SessionCommands/UpdateLibCommand.h"
 
 #include "SessionCommandDispatcher.h"
 #include "TablePrinter.h"
@@ -38,6 +39,7 @@ CSessionCommandDispatcher::CSessionCommandDispatcher()
 	AddCommand<COpenLibCommand>(m_commandsOptions, m_commands);
 	AddCommand<CFindBookByTitleCommand>(m_commandsOptions, m_commands);
 	AddCommand<CExportBookCommand>(m_commandsOptions, m_commands);
+	AddCommand<CUpdateLibCommand>(m_commandsOptions, m_commands);
 }
 
 bool CSessionCommandDispatcher::Run(const std::string& commandName, const std::wstring& args, const std::shared_ptr<CController>& ptrController, IViewCallBack* pCallBack)

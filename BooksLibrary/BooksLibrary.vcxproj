@@ -156,6 +156,7 @@
     <ClCompile Include="MVC\SessionCommands\FindBookByTitleCommand.cpp" />
     <ClCompile Include="MVC\SessionCommands\ImportLibCommand.cpp" />
     <ClCompile Include="MVC\SessionCommands\OpenLibCommand.cpp" />
+    <ClCompile Include="MVC\SessionCommands\UpdateLibCommand.cpp" />
     <ClCompile Include="MVC\TablePrinter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +180,7 @@
     <ClInclude Include="MVC\SessionCommands\FindBookByTitleCommand.h" />
     <ClInclude Include="MVC\SessionCommands\ImportLibCommand.h" />
     <ClInclude Include="MVC\SessionCommands\OpenLibCommand.h" />
+    <ClInclude Include="MVC\SessionCommands\UpdateLibCommand.h" />
     <ClInclude Include="MVC\TablePrinter.h" />
     <ClInclude Include="Util\CommandlineUtil.h" />
   </ItemGroup>

@@ -1,3 +1,5 @@
+#include <filesystem>
+
 #include "../../CommonLib/Str.h"
 #include "../../BooksLibraryApi/BooksLibraryApi.h"
 
@@ -16,7 +18,7 @@ CController::CController(IViewCallBack* pCallBack)
 		str::WstringToUtf8String(ptrConfig->GetBooksDir()),
 		str::WstringToUtf8String(ptrConfig->GetStoragePath())));
 
-	OpenExistingLibImpl(false, ptrConfig->GetBooksDir(), ptrConfig->GetStoragePath(), pCallBack);
+	OpenExistingLibImpl(false, ptrConfig->GetInpxPath(), ptrConfig->GetBooksDir(), ptrConfig->GetStoragePath(), pCallBack);
 }
 
 void CController::ImportNewLib(const std::wstring& inpxPath, const std::wstring& booksDirPath, const std::wstring& storagePath, IViewCallBack* pCallBack)
@@ -24,12 +26,14 @@ void CController::ImportNewLib(const std::wstring& inpxPath, const std::wstring&
 	bookslibrary::CBooksLibraryApi::Get()->ImportNewLib(inpxPath, booksDirPath, storagePath);
 	pCallBack->DisplayMsg("The library was imported successfully.");
 
-	CConfig::SaveConfig(booksDirPath, storagePath);
+	CConfig::SaveConfig(inpxPath, booksDirPath, storagePath);
+
+	m_ptrConfigOrNull = std::make_shared<CConfig>(inpxPath, booksDirPath, storagePath);
 }
 
-void CController::OpenExistingLib(const std::wstring& booksDirPath, const std::wstring& storagePath, IViewCallBack* pCallBack)
+void CController::OpenExistingLib(const std::wstring& inpxPath, const std::wstring& booksDirPath, const std::wstring& storagePath, IViewCallBack* pCallBack)
 {
-	OpenExistingLibImpl(true, booksDirPath, storagePath, pCallBack);
+	OpenExistingLibImpl(true, inpxPath, booksDirPath, storagePath, pCallBack);
 }
 
 void CController::FindBookByTitle(const std::wstring& title, IViewCallBack* pCallBack)
@@ -44,11 +48,28 @@ void CController::ExportBook(uint64_t id, const std::wstring& path, IViewCallBac
 	pCallBack->DisplayMsg("The book has been successfully exported");
 }
 
-void CController::OpenExistingLibImpl(bool saveConfig, const std::wstring& booksDirPath, const std::wstring& storagePath, IViewCallBack* pCallBack)
+void CController::RebuildLib(IViewCallBack* pCallBack)
+{
+	if (!m_ptrConfigOrNull)
+	{
+		pCallBack->DisplayMsg("No library is opened, cannot rebuild");
+		return;
+	}
+
+	std::filesystem::remove(m_ptrConfigOrNull->GetStoragePath());
+
+	bookslibrary::CBooksLibraryApi::Get()->ImportNewLib(m_ptrConfigOrNull->GetInpxPath(), m_ptrConfigOrNull->GetBooksDir(), m_ptrConfigOrNull->GetStoragePath());
+
+	pCallBack->DisplayMsg("The library was rebuilt successfully");
+}
+
+void CController::OpenExistingLibImpl(bool saveConfig, const std::wstring& inpxPath, const std::wstring& booksDirPath, const std::wstring& storagePath, IViewCallBack* pCallBack)
 {
 	bookslibrary::CBooksLibraryApi::Get()->OpenExistingLib(booksDirPath, storagePath);
 	pCallBack->DisplayMsg("The library has been opened successfully..");
 
 	if (saveConfig)
-		CConfig::SaveConfig(booksDirPath, storagePath);
+		CConfig::SaveConfig(inpxPath, booksDirPath, storagePath);
+
+	m_ptrConfigOrNull = std::make_shared<CConfig>(inpxPath, booksDirPath, storagePath);
 }

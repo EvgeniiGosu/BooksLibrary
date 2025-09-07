@@ -29,6 +29,9 @@
     <ClCompile Include="Config\Config.cpp">
       <Filter>Config</Filter>
     </ClCompile>
+    <ClCompile Include="MVC\SessionCommands\UpdateLibCommand.cpp">
+      <Filter>MVC\SessionCommands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -80,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="Config\Config.h">
       <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="MVC\SessionCommands\UpdateLibCommand.h">
+      <Filter>MVC\SessionCommands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
