@@ -1,4 +1,5 @@
 #include <fstream>
+#include <filesystem>
 
 #include <zip.h>
 
@@ -51,6 +52,20 @@ std::shared_ptr<IArchive> CLibzipArchive::Open4Read(const std::string& path)
 std::shared_ptr<IArchive> CLibzipArchive::Open4Read(const std::wstring& path)
 {
     return Open4Read(str::WstringToUtf8String(path));
+}
+
+std::shared_ptr<IArchive> CLibzipArchive::Open4Write(const std::string& path)
+{
+    zip_t* pArhive;
+    int errCode;
+
+    if (pArhive = zip_open(path.c_str(), ZIP_CREATE | ZIP_EXCL, &errCode);  pArhive == NULL)
+    {
+        const std::string error = GetZipError(errCode);
+        throw std::exception(str::Format("Failed to open archive [{}] with error [{}]", path, error).c_str());
+    }
+
+    return std::shared_ptr<IArchive>(new CLibzipArchive(pArhive, path));
 }
 
 std::vector<std::string> CLibzipArchive::EnumEntries() const
@@ -119,16 +134,41 @@ uint64_t CLibzipArchive::GetFileSize(const std::string& fileName) const
 
 void CLibzipArchive::ExtractFile(const std::string& fileName, const std::wstring& targetPath) const
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+
     std::ofstream ostream(targetPath, std::ios::binary);
     ReadFileToStream(fileName, ostream);
     ostream.close();
 }
 
-void archive::CLibzipArchive::ExtractFile(const std::string& fileName, const std::string& targetPath) const
+void CLibzipArchive::ExtractFile(const std::string& fileName, const std::string& targetPath) const
 {
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+
     std::ofstream ostream(targetPath, std::ios::binary);
     ReadFileToStream(fileName, ostream);
     ostream.close();
+}
+
+void CLibzipArchive::AddFileToArchive(const std::string& sourceFilePath)
+{
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+
+    zip_source_t* source = zip_source_file(m_pArchive, sourceFilePath.c_str(), 0, 0);
+
+    if (source == NULL)
+        throw std::exception(str::Format("Failed to open source file [{}] with error [{}]", sourceFilePath, zip_strerror(m_pArchive)).c_str());
+
+    zip_int64_t idx = zip_file_add(m_pArchive, std::filesystem::path(sourceFilePath).filename().string().c_str(), source, ZIP_FL_OVERWRITE | ZIP_FL_ENC_UTF_8);
+
+    if (idx < 0)
+    {
+        zip_source_free(source);
+        throw std::exception(str::Format("Failed to add file [{}] to archive with error [{}]", sourceFilePath, zip_strerror(m_pArchive)).c_str());
+    }
+
+    if (zip_set_file_compression(m_pArchive, idx, ZIP_CM_DEFLATE, 9) < 0)
+        throw std::exception(str::Format("Error setting compression level [{}]", sourceFilePath, zip_strerror(m_pArchive)).c_str());
 }
 
 CLibzipArchive::CLibzipArchive(zip_t* pArchive, const std::string& path)

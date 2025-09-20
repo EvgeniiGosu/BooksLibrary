@@ -7,6 +7,7 @@
 
 #include "../../CommonLib/Str.h"
 #include "../../CommonLib/Logging/Log.h"
+#include "../../ArchiveLib/ArchiveFactory.h"
 
 #include "PropertyTreeBookSerializer.h"
 #include "PropertyTreeBooksStorageWriter.h"
@@ -19,6 +20,11 @@ std::shared_ptr<IBooksStorageWriter> CPropertyTreeBooksStorageWriter::CreateNew(
 		throw std::exception(str::Format("Storage [{}] already exist", str::WstringToUtf8String(storagePath)).c_str());
 
 	return std::shared_ptr<IBooksStorageWriter>(new CPropertyTreeBooksStorageWriter(storagePath));
+}
+
+CPropertyTreeBooksStorageWriter::~CPropertyTreeBooksStorageWriter()
+{
+	Finish();
 }
 
 void CPropertyTreeBooksStorageWriter::CPropertyTreeBooksStorageWriter::AddNewBooks(std::vector<std::shared_ptr<SBook>>&& books)
@@ -34,7 +40,27 @@ void CPropertyTreeBooksStorageWriter::CPropertyTreeBooksStorageWriter::AddNewBoo
 	}
 }
 
+void CPropertyTreeBooksStorageWriter::Finish()
+{
+	if (m_finished)
+		return;
+
+	m_finished = true;
+
+	m_stream.close();
+
+	const auto storagePath = std::filesystem::path(m_storagePath);
+	const auto arhivePath = std::filesystem::path(m_storagePath).replace_extension("tmp");
+
+	archive::CArchiveFactory::Open4Write(str::WstringToUtf8String(arhivePath))->AddFileToArchive(storagePath.string());
+
+	std::filesystem::remove(storagePath);
+
+	std::filesystem::rename(arhivePath, storagePath);
+}
+
 CPropertyTreeBooksStorageWriter::CPropertyTreeBooksStorageWriter(const std::wstring& path)
 	: m_stream(path)
+	, m_storagePath(path)
 {
 }

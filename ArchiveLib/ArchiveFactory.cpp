@@ -13,3 +13,8 @@ std::shared_ptr<IArchive> CArchiveFactory::Open4Read(const std::wstring& path)
 {
 	return CLibzipArchive::Open4Read(path);
 }
+
+std::shared_ptr<IArchive> CArchiveFactory::Open4Write(const std::string& path)
+{
+	return CLibzipArchive::Open4Write(path);
+}

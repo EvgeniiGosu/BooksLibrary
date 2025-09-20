@@ -6,6 +6,7 @@
 #include "../../CommonLib/Str.h"
 #include "../../CommonLib/Logging/Log.h"
 #include "../../CommonLib/Stopwatch.h"
+#include "../../ArchiveLib/ArchiveFactory.h"
 
 #include "PropertyTreeBookSerializer.h"
 #include "PropertyTreeBooksStorageReader.h"
@@ -21,7 +22,7 @@ std::shared_ptr<IBooksStorageReader> CPropertyTreeBooksStorageReader::CreateNew(
 
 	std::vector<std::shared_ptr<SBook>> books;
 	
-	std::ifstream stream(storagePath);
+	std::stringstream stream(archive::CArchiveFactory::Open4Read(str::WstringToUtf8String(storagePath))->ReadFileToStr(std::filesystem::path(storagePath).filename().string()));
 
 	std::string line;
 	while (std::getline(stream, line))
@@ -36,6 +37,8 @@ std::shared_ptr<IBooksStorageReader> CPropertyTreeBooksStorageReader::CreateNew(
 
 		books.push_back(CPropertyTreeBookSerializer::Deserialize(ptBook));
 	}
+
+	LOG.Write("Total of {} books were processed", std::to_string(books.size()));
 
 	return std::shared_ptr<IBooksStorageReader>(new CPropertyTreeBooksStorageReader(std::move(books)));
 }

@@ -14,5 +14,6 @@ namespace bookslibrary
 		~IBooksStorageWriter() = default;
 
 		virtual void AddNewBooks(std::vector<std::shared_ptr<SBook>>&& books) = 0;
+		virtual void Finish() = 0;
 	};
 }

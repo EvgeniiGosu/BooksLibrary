@@ -12,5 +12,6 @@ namespace archive
 	public:
 		static std::shared_ptr<IArchive> Open4Read(const std::string& path);
 		static std::shared_ptr<IArchive> Open4Read(const std::wstring& path);
+		static std::shared_ptr<IArchive> Open4Write(const std::string& path);
 	};
 }

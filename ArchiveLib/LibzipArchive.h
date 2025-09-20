@@ -17,12 +17,14 @@ namespace archive
 
 		static std::shared_ptr<IArchive> Open4Read(const std::string& path);
 		static std::shared_ptr<IArchive> Open4Read(const std::wstring& path);
+		static std::shared_ptr<IArchive> Open4Write(const std::string& path);
 
 		std::vector<std::string> EnumEntries() const override;
 		std::string ReadFileToStr(const std::string& fileName) const override;
 		uint64_t GetFileSize(const std::string& fileName) const override;
 		void ExtractFile(const std::string& fileName, const std::wstring& targetPath) const override;
 		void ExtractFile(const std::string& fileName, const std::string& targetPath) const override;
+		void AddFileToArchive(const std::string& sourceFilePath) override;
 
 	private:
 		CLibzipArchive(zip_t* pArchive, const std::string& path);

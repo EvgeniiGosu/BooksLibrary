@@ -7,6 +7,7 @@
 
 #include "../ArchiveLib/ArchiveFactory.h"
 #include "../CommonLib/TempDir.h"
+#include "../CommonLib/Str.h"
 
 namespace {
 
@@ -27,6 +28,36 @@ namespace {
 
 		REQUIRE(zip_close(pArchive) == 0);
 	}
+
+	void CreateTestFile(const std::wstring& path, const std::string& content)
+	{
+		std::ofstream file(path);
+		REQUIRE(file.is_open());
+		file << content;
+		file.close();
+	}
+}
+
+TEST_CASE("CArchiveFactory.AddFileToArchive", "[archive]")
+{
+	util::CTempDir tmpDir;
+
+	const std::string arhivePath = tmpDir.GetFilePath("new_archive.zip");
+	const std::wstring filePath = tmpDir.GetWFilePath(L"test_file.txt");
+
+	std::shared_ptr<archive::IArchive> ptrArchive = archive::CArchiveFactory::Open4Write(arhivePath);
+
+	CreateTestFile(filePath, "file content");
+
+	ptrArchive->AddFileToArchive(str::WstringToUtf8String(filePath));
+
+	ptrArchive.reset(); // for flush
+
+	ptrArchive = archive::CArchiveFactory::Open4Read(arhivePath);
+
+	const auto fileContent = ptrArchive->ReadFileToStr("test_file.txt");
+
+	REQUIRE(fileContent == "file content");
 }
 
 TEST_CASE("CArchiveFactory.Open4Read existing archive", "[archive]")

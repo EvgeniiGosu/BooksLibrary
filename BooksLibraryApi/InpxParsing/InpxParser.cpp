@@ -41,6 +41,8 @@ uint64_t CInpxParser::Parse(const std::shared_ptr<IBooksStorageWriter>& ptrBooks
 		ptrBooksStorage->AddNewBooks(std::move(books));
 	}
 
+	ptrBooksStorage->Finish();
+
 	LOG.Write("Total of {} books were processed", std::to_string(booksCount));
 
 	return booksCount;
