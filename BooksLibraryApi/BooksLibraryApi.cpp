@@ -15,6 +15,18 @@
 
 using namespace bookslibrary;
 
+namespace {
+	void ExportBook(const std::shared_ptr<SBook> ptrBook, const std::wstring& booksDir, const std::wstring& dirPath)
+	{
+		const std::filesystem::path archivePath = std::filesystem::path(booksDir) / ptrBook->m_file.m_archiveFileName;
+		const std::filesystem::path fileTargetPath = std::filesystem::path(dirPath) / ptrBook->m_file.m_fileName;
+
+		const std::shared_ptr<archive::IArchive> ptrArchive = archive::CArchiveFactory::Open4Read(archivePath.wstring());
+
+		ptrArchive->ExtractFile(ptrBook->m_file.m_fileName, fileTargetPath.wstring());
+	}
+}
+
 std::shared_ptr<CBooksLibraryApi> CBooksLibraryApi::Get()
 {
 	static std::shared_ptr<CBooksLibraryApi> ptrApi(new CBooksLibraryApi);
@@ -63,12 +75,24 @@ void CBooksLibraryApi::ExportBook(uint64_t id, const std::wstring& dirPath) cons
 
 	const std::shared_ptr<SBook> ptrBook = m_ptrBooksStorage->GetBook(id);
 
-	const std::filesystem::path archivePath = std::filesystem::path(m_booksDir)/ptrBook->m_file.m_archiveFileName;
-	const std::filesystem::path fileTargetPath = std::filesystem::path(dirPath)/ptrBook->m_file.m_fileName;
+	::ExportBook(ptrBook, m_booksDir, dirPath);
+}
 
-	const std::shared_ptr<archive::IArchive> ptrArchive = archive::CArchiveFactory::Open4Read(archivePath.wstring());
+void CBooksLibraryApi::ExportBooks(const std::wstring& dirPath) const
+{
+	LOG.Write("CBooksLibraryApi::ExportBooks: to dir: \"{}\"", str::WstringToUtf8String(dirPath));
 
-	ptrArchive->ExtractFile(ptrBook->m_file.m_fileName, fileTargetPath.wstring());
+	util::CLogStopWatch stopWatch("Export the books took {} seconds");
+
+	std::vector<std::shared_ptr<bookslibrary::SBook>> allBooks = m_ptrBooksStorage->GetAllBooks();
+
+	std::sort(allBooks.begin(), allBooks.end(), [](const std::shared_ptr<bookslibrary::SBook>& a, const std::shared_ptr<bookslibrary::SBook>& b)
+		{
+			return a->m_id < b->m_id;
+		});
+
+	for (const std::shared_ptr<bookslibrary::SBook>& ptrBook : allBooks)
+		::ExportBook(ptrBook, m_booksDir, dirPath);
 }
 
 std::vector<std::shared_ptr<SBook>> CBooksLibraryApi::GetAllBooks() const

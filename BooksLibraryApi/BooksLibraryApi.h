@@ -19,6 +19,7 @@ namespace bookslibrary
 		std::vector<std::shared_ptr<SBook>> SearchByPartialTitle(const std::wstring& title) const;
 
 		void ExportBook(uint64_t id, const std::wstring& dirPath) const;
+		void ExportBooks(const std::wstring& dirPath) const;
 
 		std::vector<std::shared_ptr<bookslibrary::SBook>> GetAllBooks() const;
 

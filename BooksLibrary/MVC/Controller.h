@@ -15,6 +15,7 @@ public:
 	void OpenExistingLib(const std::wstring& inpxPath, const std::wstring& booksDirPath, const std::wstring& storagePath, IViewCallBack* pCallBack);
 	void FindBookByTitle(const std::wstring& title, IViewCallBack* pCallBack);
 	void ExportBook(uint64_t id, const std::wstring& path, IViewCallBack* pCallBack);
+	void ExportBooks(const std::wstring& path, IViewCallBack* pCallBack);
 	void RebuildLib(IViewCallBack* pCallBack);
 
 private:

@@ -48,6 +48,12 @@ void CController::ExportBook(uint64_t id, const std::wstring& path, IViewCallBac
 	pCallBack->DisplayMsg("The book has been successfully exported");
 }
 
+void CController::ExportBooks(const std::wstring& path, IViewCallBack* pCallBack)
+{
+	bookslibrary::CBooksLibraryApi::Get()->ExportBooks(path);
+	pCallBack->DisplayMsg("The books has been successfully exported");
+}
+
 void CController::RebuildLib(IViewCallBack* pCallBack)
 {
 	if (!m_ptrConfigOrNull)

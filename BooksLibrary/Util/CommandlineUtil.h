@@ -17,4 +17,16 @@ public:
 
 		throw std::exception(str::Format("Unknown option {}", name).c_str());
 	}
+
+	template<class T>
+	static bool Find(const std::string& name, const boost::program_options::variables_map& vm, T& value)
+	{
+		if (vm.contains(name))
+		{
+			value = vm[name].as<T>();
+			return true;
+		}
+
+		return false;
+	}
 };

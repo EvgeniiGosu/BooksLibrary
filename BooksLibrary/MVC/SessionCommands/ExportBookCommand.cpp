@@ -14,7 +14,7 @@ std::shared_ptr<boost::program_options::options_description> CExportBookCommand:
 	auto ptrOptions = std::make_shared<boost::program_options::options_description>(GetName());
 
 	ptrOptions->add_options()
-		("id", boost::program_options::value<std::uint64_t>()->required(), "Book id")
+		("id", boost::program_options::value<std::uint64_t>(), "Book id")
 		("path", boost::program_options::wvalue<std::wstring>()->required(), "Destination path (dir)");
 
 	return ptrOptions;
@@ -22,9 +22,10 @@ std::shared_ptr<boost::program_options::options_description> CExportBookCommand:
 
 void CExportBookCommand::Run(const boost::program_options::variables_map& vm, const std::shared_ptr<CController>& ptrController, IViewCallBack* pCallBack)
 {
-	const uint64_t id = CCommandlineUtil::Get<uint64_t>("id", vm);
 	const std::wstring path = CCommandlineUtil::Get<std::wstring>("path", vm);
 
-	ptrController->ExportBook(id, path, pCallBack);
-
+	if (uint64_t id; CCommandlineUtil::Find<uint64_t>("id", vm, id))
+		ptrController->ExportBook(id, path, pCallBack);
+	else
+		ptrController->ExportBooks(path, pCallBack);
 }
